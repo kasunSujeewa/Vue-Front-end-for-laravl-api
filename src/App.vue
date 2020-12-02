@@ -12,9 +12,16 @@
 </style>
 <script>
 import navbar from "./components/Navbar/navbar";
+import axios from "axios";
 export default {
   components: {
     navbar,
   },
+  data() {
+    return {
+      user: [],
+    };
+  },
+  mounted() {},
 };
 </script>

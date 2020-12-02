@@ -7,7 +7,7 @@
         <span class="subtitle-1">Social</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn small text rounded @click="logoutFun()">
+      <v-btn small text rounded @click="logoutFun()" v-if="currentuser.name">
         <span>Logout</span>
         <v-icon left>mdi-exit-to-app</v-icon>
       </v-btn>
@@ -17,7 +17,14 @@
 <script>
 import router from "../../router";
 import axios from "axios";
+import { bus } from "../../main";
 export default {
+  data() {
+    return {
+      currentuser: [],
+    };
+  },
+  mounted() {},
   methods: {
     logoutFun() {
       axios
@@ -29,8 +36,15 @@ export default {
         .then((response) => {
           console.log(response.data.message);
           router.push("/");
+          this.currentuser = "";
+          localStorage.removeItem("token");
         });
     },
+  },
+  created() {
+    bus.$on("logged", (data) => {
+      this.currentuser = data;
+    });
   },
 };
 </script>
